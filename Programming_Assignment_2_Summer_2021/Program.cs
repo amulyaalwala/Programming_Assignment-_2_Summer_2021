@@ -12,8 +12,12 @@ namespace Programming_Assignment_2_Summer_2021
             Console.WriteLine("Question 1");
             int[] nums1 = { 2, 5, 1, 3, 4, 7 };
             int[] nums2 = { 2, 1, 4, 7 };
+//             int x = Intersection(num1, num2);
+//            List<int> result= new List<int>(x);
+ 
+//             int[] intersect_array = result.ToArray()
             Intersection(nums1, nums2);
-            Console.WriteLine("");
+            Console.WriteLine(" ");
 
             //Question 2 
             Console.WriteLine("Question 2");
@@ -80,7 +84,7 @@ namespace Programming_Assignment_2_Summer_2021
             Console.WriteLine("Question 9");
             int[] arr9 = { 7, 1, 5, 3, 6, 4 };
             int Ms = MaximumSum(arr9);
-            Console.WriteLine("Maximun Sum contiguous subarray {0}", Ma);   
+            Console.WriteLine("Maximun Sum contiguous subarray {0}", Ms);   
             Console.WriteLine();
 
             //Question 10
@@ -106,9 +110,19 @@ namespace Programming_Assignment_2_Summer_2021
 
         public static void Intersection(int[] nums1, int[] nums2)
         {
+            
             try
             {
-                //write your code here.
+               int n = 0; 
+                var intersect_array = nums1.Intersect(nums2);// finding the interesection of each array using the intersect method
+
+
+                foreach (int i in intersect_array)//iterating through each element to print the common elements of the array
+                {
+                    n = i;
+                    Console.WriteLine(n);
+                }
+                
             }
             catch (Exception)
             {
@@ -139,8 +153,25 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //Write your Code here.
-                return -1;
+                   int a = 0;
+                int l = nums.Length;
+                for (int i = 0; i < l; i++)
+                {
+                    if (nums[i] == target)
+                    {
+                        return i;
+
+                    }
+
+                    else if (nums[i] > target)
+                    {
+                        return i;
+                    }
+                        
+                }
+
+                return l;
+                
             }
             catch(Exception)
             {
@@ -163,8 +194,41 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
-                return -1;
+                 int n = 1;
+                List<int> luckynumbers = new List<int>();//creating a list to store the numbers with same value as index 
+                Array.Sort(nums);
+                int count = luckynumbers.Count;
+
+                int i;
+
+                for (i = 0; i < nums.Length - 1; i++)//iterating through the length of the array
+                {
+                    if (nums[i] == nums[i + 1])
+                    {
+                        n++;
+                    }
+
+                    if (n == nums[i] && nums[i] != nums[i + 1]) // checking if the value of the array element is equal to the index
+                    {
+                        luckynumbers.Add(nums[i]);              // and if the element is equal to the next element in the array
+
+                        n = 1;
+
+                    }
+                }
+
+
+                luckynumbers.Sort(); // sorting the lucky numbers in the list
+                                     //Console.WriteLine(luckynumbers.Count);
+
+                if (luckynumbers.Count == 0)
+                {
+                    return -1;
+                }
+
+
+                return luckynumbers[luckynumbers.Count - 1];
+                
             }
             catch (Exception)
             {
@@ -201,8 +265,24 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
-                return -1;
+                 int[] arr = new int[n + 1];
+               arr[0] = 0;
+                arr[1] = 1;
+                for (int i = 2; i < n + 1; i++)
+                {
+                    int x = i / 2;
+                    if (i % 2 == 0)
+                    {
+                        arr[i] = arr[x];
+                    }
+                    else
+                    {
+                        arr[i] = arr[x] + arr[x + 1];
+                    }
+                }
+                Array.Sort(arr);
+                return arr[arr.Length - 1];
+                
             }
             catch (Exception)
             {
@@ -225,7 +305,27 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
+                foreach (List<string> p in paths)
+                    {
+                        
+                        for (int i = 0; i < paths.Count; i++)
+                        {
+                          
+
+                            if (p[1] == paths[i][1])
+                            {
+                                
+                                continue;
+                            }
+                            else
+                            {
+                                return paths[i][1];
+                            }
+
+                        }
+
+                    }
+                
                 return "";
             }
             catch (Exception)
@@ -250,7 +350,21 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
+               int i, j;
+                int size = nums.Length;
+                for (i = 0; i < size; i++)// iterating through the array twice to compare elements
+                {
+                    for (j = 1; j < size; j++)
+                    {
+                        int sum = nums[i] + nums[j];
+                        if (sum == target && i != j)//checking of the sum of elements is equal to the target
+                        {
+                            Console.WriteLine("[" + (i + 1) + "," + (j + 1) + "]");// returning the index of the individual elements, if the sum is equal to target
+                            return;
+                        }
+                    }
+                }
+               
 
             }
             catch (Exception)
@@ -285,7 +399,40 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
+                Dictionary<int, List<int>> scores = new Dictionary<int, List<int>>();
+                var marks = new List<int>();
+              
+                for (int i = 0; i < items.Length / 2; i++)
+                {
+                    
+                    if (!scores.ContainsKey(items[i, 0]))
+                    {
+                       
+                        marks = new List<int>();
+                        scores.Add(items[i, 0], marks);
+                    }
+                    else
+                    {
+                        marks= scores[items[i, 0]];
+                    }
+                    marks.Add(items[i, 1]);
+                    scores[items[i, 0]] = marks;
+                }
+                foreach (var j in scores)
+                {
+                    int key = j.Key;
+                    List<int> value = j.Value;
+                    value.Sort();
+                    value.Reverse();
+                    int sum = 0;
+                    for (int x = 0; x < 5; x++)
+                    {
+                  
+                        sum = sum + value[x];
+                    }
+
+                    Console.WriteLine("[" + key + "," + sum / 5 + "]");
+                }
 
             }
             catch (Exception)
@@ -318,7 +465,22 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
+                int size = arr.Length;
+
+                n = n % size;
+
+                for (int i = 0; i < size; i++)
+                {
+
+                    if (i < n)
+                    {
+                        Console.Write(arr[size + i - n] + " ");
+                    }
+                    else
+                    {
+                        Console.Write(arr[i - n] + " ");
+                    }
+                }
            
             }
             catch (Exception)
@@ -347,8 +509,19 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
-                return 0;
+                int max = arr[0];
+                int m= arr[0];
+
+                for (int i = 1; i < arr.Length; i++)
+                {
+
+                    m = Math.Max(arr[i], m + arr[i]);
+                    max = Math.Max(max, m);
+
+                }
+
+                return max;
+       
             }
             catch (Exception)
             {
@@ -373,8 +546,17 @@ namespace Programming_Assignment_2_Summer_2021
         {
             try
             {
-                //write your code here.
-                return 0;
+               int[] mincost = new int[costs.Length + 1];//new array with length > actual array
+
+                for (int i = 2; i < mincost.Length; i++)//iterate through the array
+                {
+                    int one_Step = mincost[i - 1] + costs[i - 1];//finding cost for  one step
+                    int Two_Steps = mincost[i - 2] + costs[i - 2];//finding cost for  two step
+                    mincost[i] = Math.Min(one_Step, Two_Steps);//finding the minimum cost of steps
+                }
+
+                return mincost[mincost.Length - 1];//returning the cost, when the final element reaches the top
+         
 
             }
             catch (Exception)
